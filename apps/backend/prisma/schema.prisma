@@ -1,0 +1,292 @@
+// Schéma Prisma — Sovoltt
+// Marketplace d'énergie solaire P2P — Autoconsommation collective France
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- Énumérations ---
+
+enum UserRole {
+  PRODUCTEUR
+  CONSOMMATEUR
+  PMO_ADMIN
+}
+
+enum PMOType {
+  URBAIN       // Rayon max 2 km
+  PERIURBAIN   // Rayon max 10 km
+  RURAL        // Rayon max 20 km
+}
+
+enum PMOStatus {
+  EN_CREATION
+  ACTIVE
+  SUSPENDUE
+  FERMEE
+}
+
+enum MemberRole {
+  ADMIN
+  PRODUCTEUR
+  CONSOMMATEUR
+}
+
+enum MeterType {
+  PRODUCTION
+  CONSOMMATION
+}
+
+enum OfferStatus {
+  ACTIVE
+  EXPIREE
+  ANNULEE
+  TERMINEE
+}
+
+enum TransactionStatus {
+  EN_ATTENTE
+  CONFIRMEE
+  PAYEE
+  ANNULEE
+  REMBOURSEE
+}
+
+enum OperationStatus {
+  EN_COURS
+  TERMINEE
+  ANNULEE
+}
+
+enum NotificationType {
+  OFFRE_DISPONIBLE
+  TRANSACTION_CONFIRMEE
+  PAIEMENT_RECU
+  SURPLUS_ALERTE
+  PMO_INVITATION
+  COMPTEUR_SYNC
+  SYSTEM
+}
+
+// --- Modèles ---
+
+/// Utilisateur (producteur ou consommateur d'énergie solaire)
+model User {
+  id               String   @id @default(uuid())
+  email            String   @unique
+  password         String
+  firstName        String   @map("first_name")
+  lastName         String   @map("last_name")
+  phone            String?
+  role             UserRole @default(CONSOMMATEUR)
+  
+  // Géolocalisation
+  address          String?
+  city             String?
+  postalCode       String?  @map("postal_code")
+  latitude         Float?
+  longitude        Float?
+  
+  // Stripe Connect
+  stripeCustomerId String?  @map("stripe_customer_id")
+  stripeAccountId  String?  @map("stripe_account_id")
+  
+  // Notifications
+  expoPushToken    String?  @map("expo_push_token")
+  
+  // Timestamps
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  meters           LinkyMeter[]
+  pmoMemberships   PMOMember[]
+  offersCreated    Offer[]         @relation("producer_offers")
+  purchases        Transaction[]   @relation("buyer_transactions")
+  sales            Transaction[]   @relation("seller_transactions")
+  notifications    Notification[]
+  operationsAsProd EnergyOperation[] @relation("operation_producer")
+  operationsAsCons EnergyOperation[] @relation("operation_consumer")
+
+  @@map("users")
+}
+
+/// Personne Morale Organisatrice — obligatoire pour l'autoconsommation collective
+/// (Article L315-2 du Code de l'énergie)
+model PMO {
+  id          String    @id @default(uuid())
+  name        String
+  siret       String    @unique
+  address     String
+  city        String?
+  postalCode  String?   @map("postal_code")
+  latitude    Float
+  longitude   Float
+  
+  // Périmètre réglementaire
+  type        PMOType   @default(URBAIN)
+  radiusKm    Float     @map("radius_km") // 2, 10 ou 20 km selon le type
+  maxPowerMW  Float     @default(5.0) @map("max_power_mw") // 5 MW standard, 10 MW collectivités
+  
+  status      PMOStatus @default(EN_CREATION)
+  
+  // Convention de répartition (stockée en JSON)
+  convention  Json?
+  
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  
+  // Relations
+  members     PMOMember[]
+  offers      Offer[]
+  operations  EnergyOperation[]
+
+  @@map("pmos")
+}
+
+/// Membre d'une PMO
+model PMOMember {
+  id       String     @id @default(uuid())
+  userId   String     @map("user_id")
+  pmoId    String     @map("pmo_id")
+  role     MemberRole @default(CONSOMMATEUR)
+  joinedAt DateTime   @default(now()) @map("joined_at")
+  
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pmo      PMO        @relation(fields: [pmoId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, pmoId])
+  @@map("pmo_members")
+}
+
+/// Compteur Linky associé à un utilisateur
+model LinkyMeter {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  prm       String    @unique // Point Référence Mesure (14 chiffres)
+  address   String?
+  type      MeterType
+  lastSync  DateTime? @map("last_sync")
+  
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  readings  MeterReading[]
+
+  @@map("linky_meters")
+}
+
+/// Relevé de compteur (données Enedis)
+model MeterReading {
+  id        String   @id @default(uuid())
+  meterId   String   @map("meter_id")
+  timestamp DateTime
+  valueWh   Float    @map("value_wh") // Valeur en Wh
+  type      MeterType
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  
+  meter     LinkyMeter @relation(fields: [meterId], references: [id], onDelete: Cascade)
+
+  @@index([meterId, timestamp])
+  @@map("meter_readings")
+}
+
+/// Offre de vente d'énergie solaire
+model Offer {
+  id            String      @id @default(uuid())
+  producerId    String      @map("producer_id")
+  pmoId         String?     @map("pmo_id")
+  
+  pricePerKwh   Float       @map("price_per_kwh") // Prix en €/kWh
+  availableKwh  Float       @map("available_kwh") // Quantité disponible
+  minPurchaseKwh Float?     @map("min_purchase_kwh")
+  
+  startDate     DateTime    @map("start_date")
+  endDate       DateTime    @map("end_date")
+  status        OfferStatus @default(ACTIVE)
+  description   String?
+  
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+  
+  producer      User          @relation("producer_offers", fields: [producerId], references: [id])
+  pmo           PMO?          @relation(fields: [pmoId], references: [id])
+  transactions  Transaction[]
+
+  @@map("offers")
+}
+
+/// Transaction d'achat d'énergie
+model Transaction {
+  id                    String            @id @default(uuid())
+  offerId               String            @map("offer_id")
+  buyerId               String            @map("buyer_id")
+  sellerId              String            @map("seller_id")
+  
+  kwh                   Float
+  pricePerKwh           Float             @map("price_per_kwh")
+  totalAmount           Float             @map("total_amount") // Montant total en €
+  platformFee           Float             @default(0) @map("platform_fee")
+  
+  stripePaymentIntentId String?           @map("stripe_payment_intent_id")
+  stripeTransferId      String?           @map("stripe_transfer_id")
+  
+  status                TransactionStatus @default(EN_ATTENTE)
+  
+  createdAt             DateTime          @default(now()) @map("created_at")
+  updatedAt             DateTime          @updatedAt @map("updated_at")
+  
+  offer                 Offer             @relation(fields: [offerId], references: [id])
+  buyer                 User              @relation("buyer_transactions", fields: [buyerId], references: [id])
+  seller                User              @relation("seller_transactions", fields: [sellerId], references: [id])
+
+  @@map("transactions")
+}
+
+/// Opération d'énergie dans le cadre d'une PMO
+model EnergyOperation {
+  id         String          @id @default(uuid())
+  pmoId      String          @map("pmo_id")
+  producerId String          @map("producer_id")
+  consumerId String          @map("consumer_id")
+  
+  kwh        Float
+  priceTotal Float           @map("price_total")
+  period     String          // ex: "2025-03" pour mars 2025
+  status     OperationStatus @default(EN_COURS)
+  invoiceUrl String?         @map("invoice_url")
+  
+  createdAt  DateTime        @default(now()) @map("created_at")
+  updatedAt  DateTime        @updatedAt @map("updated_at")
+  
+  pmo        PMO             @relation(fields: [pmoId], references: [id])
+  producer   User            @relation("operation_producer", fields: [producerId], references: [id])
+  consumer   User            @relation("operation_consumer", fields: [consumerId], references: [id])
+
+  @@map("energy_operations")
+}
+
+/// Notification push
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String           @map("user_id")
+  title     String
+  body      String
+  type      NotificationType
+  read      Boolean          @default(false)
+  data      Json?
+  
+  createdAt DateTime         @default(now()) @map("created_at")
+  
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@map("notifications")
+}

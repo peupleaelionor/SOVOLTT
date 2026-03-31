@@ -1,0 +1,21 @@
+{
+  "name": "sovoltt",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sovoltt — Marketplace d'énergie solaire pair-à-pair pour l'autoconsommation collective en France",
+  "workspaces": [
+    "apps/backend",
+    "apps/mobile",
+    "apps/web"
+  ],
+  "scripts": {
+    "backend:dev": "cd apps/backend && npm run start:dev",
+    "backend:build": "cd apps/backend && npm run build",
+    "mobile:start": "cd apps/mobile && expo start",
+    "web:dev": "cd apps/web && npm run dev",
+    "web:build": "cd apps/web && npm run build",
+    "install:all": "npm install --workspaces"
+  },
+  "author": "Sovoltt",
+  "license": "MIT"
+}
