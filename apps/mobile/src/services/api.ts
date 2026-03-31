@@ -29,22 +29,20 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // Si le token est expiré (401), tenter un refresh
-    if (error.response?.status === 401) {
+    // Si le token est expiré (401), tenter un refresh (une seule fois)
+    if (error.response?.status === 401 && !error.config._retry) {
+      error.config._retry = true;
       try {
-        const token = await storage.getToken();
-        if (token) {
-          const refreshResponse = await axios.get(
-            `${API_BASE_URL}/auth/refresh`,
-            { headers: { Authorization: `Bearer ${token}` } },
-          );
-          const newToken = refreshResponse.data.accessToken;
-          await storage.setToken(newToken);
-          
-          // Réexécuter la requête originale avec le nouveau token
-          error.config.headers.Authorization = `Bearer ${newToken}`;
-          return axios(error.config);
-        }
+        const refreshResponse = await axios.get(
+          `${API_BASE_URL}/auth/refresh`,
+          { headers: error.config.headers },
+        );
+        const newToken = refreshResponse.data.accessToken;
+        await storage.setToken(newToken);
+        
+        // Réexécuter la requête originale avec le nouveau token
+        error.config.headers.Authorization = `Bearer ${newToken}`;
+        return axios(error.config);
       } catch {
         // Le refresh a échoué, forcer la déconnexion
         await storage.deleteToken();

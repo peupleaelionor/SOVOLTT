@@ -218,10 +218,11 @@ export class MarketplaceService {
     });
 
     // Score de matching : pondération prix (40%) + proximité (40%) + quantité (20%)
-    const scored = (offers as Array<Record<string, unknown>>).map((offer: Record<string, unknown>) => {
-      const priceScore = 1 - ((offer.pricePerKwh as number) / 0.50);
-      const distanceScore = 1 - ((offer.distanceKm as number) / 20);
-      const qtyScore = Math.min((offer.availableKwh as number) / desiredKwh, 1);
+    type OfferWithDistance = Awaited<ReturnType<typeof this.findOffers>>[number] & { distanceKm: number };
+    const scored = (offers as OfferWithDistance[]).map((offer) => {
+      const priceScore = 1 - (offer.pricePerKwh / 0.50);
+      const distanceScore = 1 - (offer.distanceKm / 20);
+      const qtyScore = Math.min(offer.availableKwh / desiredKwh, 1);
       const totalScore = priceScore * 0.4 + distanceScore * 0.4 + qtyScore * 0.2;
       return { ...offer, matchScore: Math.round(totalScore * 100) };
     });

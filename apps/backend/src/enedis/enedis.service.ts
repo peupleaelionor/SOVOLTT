@@ -215,10 +215,11 @@ export class EnedisService {
       type: meter.type,
     }));
 
-    // Insertion en lot (upsert pour éviter les doublons)
-    for (const reading of readings) {
-      await this.prisma.meterReading.create({ data: reading });
-    }
+    // Insertion en lot pour éviter les requêtes N+1
+    await this.prisma.meterReading.createMany({
+      data: readings,
+      skipDuplicates: true,
+    });
 
     // Mettre à jour la date de dernière synchronisation
     await this.prisma.linkyMeter.update({

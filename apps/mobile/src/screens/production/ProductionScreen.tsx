@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   statItem: {
-    width: '48%' as unknown as number,
+    width: '48%' as any,
     flexGrow: 1,
     alignItems: 'center',
     gap: spacing.xs,
