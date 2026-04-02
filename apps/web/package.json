@@ -1,0 +1,10 @@
+{
+  "name": "@sovoltt/web",
+  "version": "1.0.0",
+  "description": "Site vitrine Sovoltt — Marketplace d'énergie solaire P2P",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve public -l 8080",
+    "build": "echo 'Static site — no build needed'"
+  }
+}

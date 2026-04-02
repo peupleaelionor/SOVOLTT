@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "Sovoltt",
+    "slug": "sovoltt",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1A4731"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sovoltt.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Sovoltt utilise votre position pour trouver les producteurs solaires près de chez vous."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1A4731"
+      },
+      "package": "com.sovoltt.app",
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "color": "#F59E0B"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Sovoltt utilise votre position pour trouver les producteurs solaires."
+        }
+      ]
+    ]
+  }
+}

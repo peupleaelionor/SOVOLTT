@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sovoltt — L'énergie solaire pair-à-pair</title>
+  <meta name="description" content="Sovoltt : vendez votre surplus solaire à vos voisins. Marketplace d'énergie pair-à-pair pour l'autoconsommation collective en France.">
+  <meta name="theme-color" content="#1A4731">
+  <meta property="og:title" content="Sovoltt — L'énergie solaire pair-à-pair">
+  <meta property="og:description" content="Vendez votre surplus solaire à vos voisins. Marketplace d'autoconsommation collective en France.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☀️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav" id="navbar">
+    <div class="container nav__inner">
+      <a href="#" class="nav__logo">
+        <span class="nav__logo-icon">☀️</span>
+        <span class="nav__logo-text">Sovoltt</span>
+      </a>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="#features">Fonctionnalités</a></li>
+        <li><a href="#how-it-works">Comment ça marche</a></li>
+        <li><a href="#pricing">Tarifs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#cta" class="btn btn--sm btn--amber">Télécharger</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" id="hero">
+    <div class="hero__bg">
+      <div class="hero__sun" aria-hidden="true">
+        <div class="hero__sun-core"></div>
+        <div class="hero__sun-ray hero__sun-ray--1"></div>
+        <div class="hero__sun-ray hero__sun-ray--2"></div>
+        <div class="hero__sun-ray hero__sun-ray--3"></div>
+        <div class="hero__sun-ray hero__sun-ray--4"></div>
+        <div class="hero__sun-ray hero__sun-ray--5"></div>
+        <div class="hero__sun-ray hero__sun-ray--6"></div>
+        <div class="hero__sun-ray hero__sun-ray--7"></div>
+        <div class="hero__sun-ray hero__sun-ray--8"></div>
+      </div>
+    </div>
+    <div class="container hero__content">
+      <h1 class="hero__title fade-in">L'énergie solaire<br><span class="hero__highlight">pair-à-pair</span></h1>
+      <p class="hero__subtitle fade-in">Vendez votre surplus solaire à vos voisins.<br>Achetez de l'énergie verte locale à prix juste.</p>
+      <div class="hero__actions fade-in">
+        <a href="#cta" class="btn btn--amber btn--lg">Télécharger l'app</a>
+        <a href="#how-it-works" class="btn btn--outline btn--lg">En savoir plus</a>
+      </div>
+      <p class="hero__legal fade-in">Autoconsommation collective · Article L315-2 du Code de l'énergie</p>
+    </div>
+  </header>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="section__title fade-in">Tout pour l'énergie solaire locale</h2>
+      <p class="section__subtitle fade-in">Une plateforme complète pour produire, vendre et acheter de l'énergie solaire entre voisins.</p>
+      <div class="features__grid">
+        <div class="feature-card fade-in">
+          <div class="feature-card__icon feature-card__icon--amber">☀️</div>
+          <h3 class="feature-card__title">Vente de surplus</h3>
+          <p class="feature-card__desc">Vendez l'énergie solaire que vous ne consommez pas directement à vos voisins, à un prix que vous choisissez.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-card__icon feature-card__icon--green">⚡</div>
+          <h3 class="feature-card__title">Achat local</h3>
+          <p class="feature-card__desc">Achetez de l'énergie verte produite près de chez vous, souvent moins chère que les tarifs réglementés.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-card__icon feature-card__icon--blue">📊</div>
+          <h3 class="feature-card__title">Suivi temps réel</h3>
+          <p class="feature-card__desc">Suivez votre production, consommation et surplus en direct via des graphiques et jauges interactifs.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-card__icon feature-card__icon--emerald">🏘️</div>
+          <h3 class="feature-card__title">PMO intégrée</h3>
+          <p class="feature-card__desc">Créez ou rejoignez une Personne Morale Organisatrice conforme à l'article L315-2 du Code de l'énergie.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-card__icon feature-card__icon--purple">💳</div>
+          <h3 class="feature-card__title">Paiement sécurisé</h3>
+          <p class="feature-card__desc">Transactions sécurisées via Stripe Connect. Facturation automatique et transferts directs aux producteurs.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-card__icon feature-card__icon--rose">📱</div>
+          <h3 class="feature-card__title">App mobile</h3>
+          <p class="feature-card__desc">Disponible sur iOS et Android. Gérez vos échanges d'énergie où que vous soyez.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <h2 class="section__title fade-in">Comment ça marche ?</h2>
+      <p class="section__subtitle fade-in">4 étapes simples pour commencer à échanger de l'énergie solaire.</p>
+      <div class="steps">
+        <div class="step fade-in">
+          <div class="step__number">1</div>
+          <div class="step__icon">📝</div>
+          <h3 class="step__title">Inscription</h3>
+          <p class="step__desc">Créez votre compte en choisissant votre rôle : producteur ou consommateur. L'app détecte automatiquement votre position.</p>
+        </div>
+        <div class="step fade-in">
+          <div class="step__number">2</div>
+          <div class="step__icon">📊</div>
+          <h3 class="step__title">Compteur Linky</h3>
+          <p class="step__desc">Connectez votre compteur Linky via le numéro PRM. Sovoltt synchronise automatiquement vos données de production et consommation.</p>
+        </div>
+        <div class="step fade-in">
+          <div class="step__number">3</div>
+          <div class="step__icon">🏘️</div>
+          <h3 class="step__title">Rejoindre une PMO</h3>
+          <p class="step__desc">Trouvez et rejoignez une Personne Morale Organisatrice dans votre périmètre, ou créez la vôtre.</p>
+        </div>
+        <div class="step fade-in">
+          <div class="step__number">4</div>
+          <div class="step__icon">⚡</div>
+          <h3 class="step__title">Échanger</h3>
+          <p class="step__desc">Publiez vos offres d'énergie ou achetez au meilleur prix. Le matching intelligent trouve les meilleures offres pour vous.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats__grid">
+        <div class="stat fade-in">
+          <div class="stat__value">Art. L315-2</div>
+          <div class="stat__label">Cadre réglementaire</div>
+        </div>
+        <div class="stat fade-in">
+          <div class="stat__value">0 €/MWh</div>
+          <div class="stat__label">Accise depuis mars 2025</div>
+        </div>
+        <div class="stat fade-in">
+          <div class="stat__value">20 km</div>
+          <div class="stat__label">Rayon max (rural)</div>
+        </div>
+        <div class="stat fade-in">
+          <div class="stat__value">5 MW</div>
+          <div class="stat__label">Puissance max standard</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="section__title fade-in">Ils utilisent Sovoltt</h2>
+      <div class="testimonials__grid">
+        <div class="testimonial fade-in">
+          <div class="testimonial__stars">★★★★★</div>
+          <p class="testimonial__text">"Depuis que j'ai installé mes panneaux, je vendais mon surplus à EDF pour presque rien. Avec Sovoltt, je le vends à mes voisins à un prix juste. Mes revenus solaires ont triplé !"</p>
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">MP</div>
+            <div>
+              <div class="testimonial__name">Marie P.</div>
+              <div class="testimonial__role">Productrice · Lyon</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial fade-in">
+          <div class="testimonial__stars">★★★★★</div>
+          <p class="testimonial__text">"Je paie mon électricité 20% moins cher qu'avant grâce à l'énergie solaire de mon voisin. Et en plus, c'est 100% vert et local. C'est gagnant-gagnant."</p>
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">TD</div>
+            <div>
+              <div class="testimonial__name">Thomas D.</div>
+              <div class="testimonial__role">Consommateur · Bordeaux</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial fade-in">
+          <div class="testimonial__stars">★★★★★</div>
+          <p class="testimonial__text">"Créer notre PMO a été simple grâce à Sovoltt. En 3 mois, notre quartier de 40 maisons est passé à l'autoconsommation collective. L'app est vraiment intuitive."</p>
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">SL</div>
+            <div>
+              <div class="testimonial__name">Sophie L.</div>
+              <div class="testimonial__role">Admin PMO · Nantes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <h2 class="section__title fade-in">Tarifs transparents</h2>
+      <p class="section__subtitle fade-in">Inscription gratuite. Vous ne payez que sur les transactions réalisées.</p>
+      <div class="pricing__grid">
+        <div class="pricing-card fade-in">
+          <div class="pricing-card__badge">Consommateur</div>
+          <div class="pricing-card__price">Gratuit</div>
+          <div class="pricing-card__commission">5% de commission par achat</div>
+          <ul class="pricing-card__features">
+            <li>✅ Inscription gratuite</li>
+            <li>✅ Recherche de producteurs à proximité</li>
+            <li>✅ Matching automatique intelligent</li>
+            <li>✅ Suivi conso via compteur Linky</li>
+            <li>✅ Paiement sécurisé Stripe</li>
+            <li>✅ Factures automatiques</li>
+            <li>✅ Notifications en temps réel</li>
+          </ul>
+          <a href="#cta" class="btn btn--primary btn--lg">Commencer gratuitement</a>
+        </div>
+        <div class="pricing-card pricing-card--highlight fade-in">
+          <div class="pricing-card__badge pricing-card__badge--amber">Producteur</div>
+          <div class="pricing-card__price">Gratuit</div>
+          <div class="pricing-card__commission">3% de commission après 100 kWh</div>
+          <ul class="pricing-card__features">
+            <li>✅ Tout le plan Consommateur</li>
+            <li>✅ Publication d'offres de surplus</li>
+            <li>✅ Suivi de production temps réel</li>
+            <li>✅ Jauge de surplus et prévisions</li>
+            <li>✅ Revenus via Stripe Connect</li>
+            <li>✅ Création de PMO</li>
+            <li>✅ Premiers 100 kWh sans commission</li>
+          </ul>
+          <a href="#cta" class="btn btn--amber btn--lg">Devenir producteur</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <h2 class="section__title fade-in">Questions fréquentes</h2>
+      <div class="faq__list">
+        <div class="faq__item fade-in">
+          <button class="faq__question" aria-expanded="false">
+            <span>Qu'est-ce que l'autoconsommation collective ?</span>
+            <span class="faq__chevron">▼</span>
+          </button>
+          <div class="faq__answer">
+            <p>L'autoconsommation collective permet à des producteurs et consommateurs proches géographiquement de partager l'énergie solaire produite localement. C'est encadré par l'article L315-2 du Code de l'énergie et nécessite la création d'une Personne Morale Organisatrice (PMO).</p>
+          </div>
+        </div>
+        <div class="faq__item fade-in">
+          <button class="faq__question" aria-expanded="false">
+            <span>Qu'est-ce qu'une PMO et est-ce obligatoire ?</span>
+            <span class="faq__chevron">▼</span>
+          </button>
+          <div class="faq__answer">
+            <p>La PMO (Personne Morale Organisatrice) est une entité juridique qui organise l'autoconsommation collective entre ses membres. Oui, elle est obligatoire conformément au décret 2017-676. Sovoltt vous aide à en créer une ou à rejoindre une PMO existante en quelques clics.</p>
+          </div>
+        </div>
+        <div class="faq__item fade-in">
+          <button class="faq__question" aria-expanded="false">
+            <span>Ai-je besoin d'un compteur Linky ?</span>
+            <span class="faq__chevron">▼</span>
+          </button>
+          <div class="faq__answer">
+            <p>Oui, un compteur Linky est nécessaire pour mesurer précisément la production et la consommation d'énergie. Sovoltt se connecte à votre compteur via le numéro PRM (14 chiffres visible sur le compteur ou votre facture) pour récupérer les données automatiquement via l'API Enedis.</p>
+          </div>
+        </div>
+        <div class="faq__item fade-in">
+          <button class="faq__question" aria-expanded="false">
+            <span>Quel est le périmètre géographique autorisé ?</span>
+            <span class="faq__chevron">▼</span>
+          </button>
+          <div class="faq__answer">
+            <p>Le périmètre dépend du type de zone : 2 km en zone urbaine dense, 10 km en zone périurbaine, et 20 km en zone rurale. La puissance maximale est de 5 MW pour les particuliers et peut aller jusqu'à 10 MW pour les collectivités.</p>
+          </div>
+        </div>
+        <div class="faq__item fade-in">
+          <button class="faq__question" aria-expanded="false">
+            <span>Comment fonctionne la facturation ?</span>
+            <span class="faq__chevron">▼</span>
+          </button>
+          <div class="faq__answer">
+            <p>Les paiements sont sécurisés via Stripe Connect. Les consommateurs paient lors de l'achat d'énergie, et les producteurs reçoivent automatiquement les fonds sur leur compte bancaire. Sovoltt génère des factures mensuelles automatiques. La commission de la plateforme est prélevée directement sur chaque transaction.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="cta">
+    <div class="container cta__inner">
+      <h2 class="cta__title fade-in">Prêt à rejoindre la révolution solaire ? ☀️</h2>
+      <p class="cta__subtitle fade-in">Téléchargez l'app et commencez à échanger de l'énergie solaire avec vos voisins dès aujourd'hui.</p>
+      <div class="cta__actions fade-in">
+        <a href="#" class="btn btn--amber btn--lg">📱 Télécharger sur iOS</a>
+        <a href="#" class="btn btn--outline-light btn--lg">🤖 Télécharger sur Android</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <div class="footer__logo">☀️ Sovoltt</div>
+        <p class="footer__tagline">L'énergie solaire pair-à-pair</p>
+        <p class="footer__desc">Marketplace d'autoconsommation collective pour la France.</p>
+      </div>
+      <div class="footer__links">
+        <div class="footer__col">
+          <h4 class="footer__col-title">Produit</h4>
+          <a href="#features">Fonctionnalités</a>
+          <a href="#pricing">Tarifs</a>
+          <a href="#how-it-works">Comment ça marche</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__col-title">Légal</h4>
+          <a href="#">Mentions légales</a>
+          <a href="#">Politique de confidentialité</a>
+          <a href="#">CGU</a>
+          <a href="#">RGPD</a>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__col-title">Contact</h4>
+          <a href="#">contact@sovoltt.fr</a>
+          <a href="#">Twitter</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">GitHub</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© 2025 Sovoltt. Tous droits réservés. Made with ☀️ in France.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
